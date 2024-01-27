@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    #chat-container {
+      max-width: 400px;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    #chat-messages {
+      padding: 10px;
+      overflow-y: auto;
+      max-height: 300px;
+    }
+
+    #user-input {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+
+    #user-message {
+      flex-grow: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #send-button {
+      margin-left: 10px;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+    }
+  </style>
+  <title>ChatGPT Bot</title>
+</head>
+<body>
+
+<div id="chat-container">
+  <div id="chat-messages"></div>
+  <div id="user-input">
+    <input type="text" id="user-message" placeholder="Type a message...">
+    <button id="send-button">Send</button>
+  </div>
+</div>
+
+<script>
+  const apiKey = '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'; // Replace with your actual API key
+  const endpoint = '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';
+  const chatMessages = document.getElementById('chat-messages');
+  const userMessageInput = document.getElementById('user-message');
+  const sendButton = document.getElementById('send-button');
+
+  function addUserMessage(message) {
+    const userMessage = document.createElement('div');
+    userMessage.className = 'user-message';
+    userMessage.textContent = message;
+    chatMessages.appendChild(userMessage);
+  }
+
+  function addBotMessage(message) {
+    const botMessage = document.createElement('div');
+    botMessage.className = 'bot-message';
+    botMessage.textContent = message;
+    chatMessages.appendChild(botMessage);
+  }
+
+  function sendMessageToChatGPT(userInput) {
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        prompt: userInput,
+        max_tokens: 150,
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      const botResponse = data.choices[0].text.trim();
+      addBotMessage(botResponse);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+
+  sendButton.addEventListener('click', function () {
+    const userMessage = userMessageInput.value.trim();
+    if (userMessage !== '') {
+      addUserMessage(userMessage);
+      userMessageInput.value = '';
+      sendMessageToChatGPT(userMessage);
+    }
+  });
+</script>
+
+</body>
+</html>

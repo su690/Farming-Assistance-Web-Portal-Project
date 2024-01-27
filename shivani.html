@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pest Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+img{
+    height: 300px;
+    width: 300px;
+}
+        h1 {
+            color: #4CAF50;
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+       
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #imagePreview {
+            max-width: 40px;
+            max-height: 40px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        #pestReport {
+            color: rgb(15, 1, 1);
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #42b21a;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 1100px;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pest Detection Report</h1>
+
+    <form id="imageForm">
+        <input type="file" accept="image/*" id="imageInput" required>
+        <button type="button" onclick="previewImage()">Preview Image</button>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="imagePreview"></div>
+
+    <div id="pestReport"></div>
+
+    <script>
+        function previewImage() {
+            var input = document.getElementById('imageInput');
+            var preview = document.getElementById('imagePreview');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.innerHTML = '<img src="' + e.target.result + '" alt="Uploaded Image">';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        document.getElementById('imageForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var pestReportDiv = document.getElementById('pestReport');
+            pestReportDiv.innerHTML = ''; // Clear previous report
+
+            // Placeholder pest report (replace with actual pest detection logic)
+            var reportText = "pest detected Thrips Leaf damage characterized by small holes and browning. Suspected pest: Thrips. Severity moderate. Further assessment and identification needed.";
+
+            var reportNode = document.createTextNode(reportText);
+            pestReportDiv.appendChild(reportNode);
+        });
+    </script>
+</body>
+</html>

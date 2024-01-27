@@ -1,0 +1,133 @@
+[
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "train_test_split",
+        "importPath": "sklearn.model_selection",
+        "description": "sklearn.model_selection",
+        "isExtraImport": true,
+        "detail": "sklearn.model_selection",
+        "documentation": {}
+    },
+    {
+        "label": "RandomForestRegressor",
+        "importPath": "sklearn.ensemble",
+        "description": "sklearn.ensemble",
+        "isExtraImport": true,
+        "detail": "sklearn.ensemble",
+        "documentation": {}
+    },
+    {
+        "label": "mean_squared_error",
+        "importPath": "sklearn.metrics",
+        "description": "sklearn.metrics",
+        "isExtraImport": true,
+        "detail": "sklearn.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "StandardScaler",
+        "importPath": "sklearn.preprocessing",
+        "description": "sklearn.preprocessing",
+        "isExtraImport": true,
+        "detail": "sklearn.preprocessing",
+        "documentation": {}
+    },
+    {
+        "label": "data",
+        "kind": 5,
+        "importPath": "a",
+        "description": "a",
+        "peekOfCode": "data = pd.read_csv(\"weather_data.csv\")\n# Separate features and target variable\nX = data.drop(\"temperature\", axis=1)\ny = data[\"temperature\"]\n# Split the data into training and testing sets\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n# Standardize the features\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)",
+        "detail": "a",
+        "documentation": {}
+    },
+    {
+        "label": "X",
+        "kind": 5,
+        "importPath": "a",
+        "description": "a",
+        "peekOfCode": "X = data.drop(\"temperature\", axis=1)\ny = data[\"temperature\"]\n# Split the data into training and testing sets\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n# Standardize the features\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n# Train a Random Forest Regressor\nmodel = RandomForestRegressor(n_estimators=100, random_state=42)",
+        "detail": "a",
+        "documentation": {}
+    },
+    {
+        "label": "y",
+        "kind": 5,
+        "importPath": "a",
+        "description": "a",
+        "peekOfCode": "y = data[\"temperature\"]\n# Split the data into training and testing sets\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n# Standardize the features\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n# Train a Random Forest Regressor\nmodel = RandomForestRegressor(n_estimators=100, random_state=42)\nmodel.fit(X_train_scaled, y_train)",
+        "detail": "a",
+        "documentation": {}
+    },
+    {
+        "label": "scaler",
+        "kind": 5,
+        "importPath": "a",
+        "description": "a",
+        "peekOfCode": "scaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n# Train a Random Forest Regressor\nmodel = RandomForestRegressor(n_estimators=100, random_state=42)\nmodel.fit(X_train_scaled, y_train)\n# Make predictions on the test set\ny_pred = model.predict(X_test_scaled)\n# Evaluate the model\nmse = mean_squared_error(y_test, y_pred)",
+        "detail": "a",
+        "documentation": {}
+    },
+    {
+        "label": "X_train_scaled",
+        "kind": 5,
+        "importPath": "a",
+        "description": "a",
+        "peekOfCode": "X_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n# Train a Random Forest Regressor\nmodel = RandomForestRegressor(n_estimators=100, random_state=42)\nmodel.fit(X_train_scaled, y_train)\n# Make predictions on the test set\ny_pred = model.predict(X_test_scaled)\n# Evaluate the model\nmse = mean_squared_error(y_test, y_pred)\nprint(f\"Mean Squared Error: {mse}\")",
+        "detail": "a",
+        "documentation": {}
+    },
+    {
+        "label": "X_test_scaled",
+        "kind": 5,
+        "importPath": "a",
+        "description": "a",
+        "peekOfCode": "X_test_scaled = scaler.transform(X_test)\n# Train a Random Forest Regressor\nmodel = RandomForestRegressor(n_estimators=100, random_state=42)\nmodel.fit(X_train_scaled, y_train)\n# Make predictions on the test set\ny_pred = model.predict(X_test_scaled)\n# Evaluate the model\nmse = mean_squared_error(y_test, y_pred)\nprint(f\"Mean Squared Error: {mse}\")\n# Now you can use the trained model to make predictions for new data",
+        "detail": "a",
+        "documentation": {}
+    },
+    {
+        "label": "model",
+        "kind": 5,
+        "importPath": "a",
+        "description": "a",
+        "peekOfCode": "model = RandomForestRegressor(n_estimators=100, random_state=42)\nmodel.fit(X_train_scaled, y_train)\n# Make predictions on the test set\ny_pred = model.predict(X_test_scaled)\n# Evaluate the model\nmse = mean_squared_error(y_test, y_pred)\nprint(f\"Mean Squared Error: {mse}\")\n# Now you can use the trained model to make predictions for new data",
+        "detail": "a",
+        "documentation": {}
+    },
+    {
+        "label": "y_pred",
+        "kind": 5,
+        "importPath": "a",
+        "description": "a",
+        "peekOfCode": "y_pred = model.predict(X_test_scaled)\n# Evaluate the model\nmse = mean_squared_error(y_test, y_pred)\nprint(f\"Mean Squared Error: {mse}\")\n# Now you can use the trained model to make predictions for new data",
+        "detail": "a",
+        "documentation": {}
+    },
+    {
+        "label": "mse",
+        "kind": 5,
+        "importPath": "a",
+        "description": "a",
+        "peekOfCode": "mse = mean_squared_error(y_test, y_pred)\nprint(f\"Mean Squared Error: {mse}\")\n# Now you can use the trained model to make predictions for new data",
+        "detail": "a",
+        "documentation": {}
+    }
+]

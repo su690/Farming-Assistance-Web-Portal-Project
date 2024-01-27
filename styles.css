@@ -1,0 +1,55 @@
+/* Reset some default styles */
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set up a basic style for the chat window */
+.chat-window {
+  width: 300px;
+  margin: 50px auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Style the chat container */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 400px; /* Adjust the height as needed */
+}
+
+/* Style the chat area where messages will be displayed */
+.chat-area {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+/* Style individual chat messages */
+.chat-message {
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+/* Style bot messages */
+.bot {
+  background-color: #e6e6e6;
+}
+
+/* Style user input area */
+.user-input {
+  padding: 10px;
+  border: none;
+  border-top: 1px solid #ccc;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Style user input placeholder */
+.user-input::placeholder {
+  color: #999;
+}
