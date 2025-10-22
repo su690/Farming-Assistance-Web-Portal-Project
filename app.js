@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
  
-const API_BASE = "/api/v1";
+const API_BASE = "http://localhost:8080/api/v1"; // Backend base URL
  
 const Signup = () => {
   const [name, setName] = useState("");
@@ -14,34 +14,55 @@ const Signup = () => {
  
   const handleSignup = async (e) => {
     e.preventDefault();
-
+ 
     if (!name || !email || !password || !role) {
       toast.error("All fields are required");
       return;
     }
-
+ 
     const studentEmailRegex = /^[^\s@]+@stu\.com$/;
     const instructorEmailRegex = /^[^\s@]+@ins\.com$/;
-
+ 
     if (role === "Student" && !studentEmailRegex.test(email)) {
       toast.error("Student email must end with @stu.com");
       return;
     }
-
+ 
     if (role === "Instructor" && !instructorEmailRegex.test(email)) {
       toast.error("Instructor email must end with @ins.com");
       return;
     }
-
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,}$/;
+ 
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,}$/;
     if (!passwordRegex.test(password)) {
-      toast.error("Password must be at least 8 characters long, include one uppercase letter, one number, and one special character");
+      toast.error(
+        "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character"
+      );
       return;
     }
-
-
+ 
+    try {
+      const response = await axios.post(`${API_BASE}/signup`, {
+        name,
+        email,
+        password,
+        role,
+      });
+ 
+      if (response.status === 200 || response.status === 201) {
+        toast.success("Signup successful! Redirecting to login...");
+        navigate("/login");
+      } else {
+        toast.error("Signup failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      toast.error(
+        error.response?.data?.message || "Something went wrong during signup."
+      );
+    }
   };
-  
  
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -50,7 +71,7 @@ const Signup = () => {
         className="bg-white p-8 rounded-xl shadow-lg w-96"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-
+ 
         <input
           type="text"
           placeholder="Full Name"
@@ -99,3 +120,4 @@ const Signup = () => {
 };
  
 export default Signup;
+ 
