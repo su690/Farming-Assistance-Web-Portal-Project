@@ -1,123 +1,101 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import axios from "axios";
+import { AppContext } from "../context/AppContext";
+import { toast } from 'react-toastify';
  
-const API_BASE = "http://localhost:8080/api/v1"; // Backend base URL
- 
-const Signup = () => {
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("Student");
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useContext(AppContext);
   const navigate = useNavigate();
  
-  const handleSignup = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
- 
-    if (!name || !email || !password || !role) {
-      toast.error("All fields are required");
+
+    if (!email || !password) {
+      toast.error("Email and password are required");
       return;
     }
- 
+
     const studentEmailRegex = /^[^\s@]+@stu\.com$/;
     const instructorEmailRegex = /^[^\s@]+@ins\.com$/;
- 
-    if (role === "Student" && !studentEmailRegex.test(email)) {
-      toast.error("Student email must end with @stu.com");
+    const isValidEmail = studentEmailRegex.test(email) || instructorEmailRegex.test(email);
+
+    if (!isValidEmail) {
+      toast.error("Invalid credentials");
       return;
     }
- 
-    if (role === "Instructor" && !instructorEmailRegex.test(email)) {
-      toast.error("Instructor email must end with @ins.com");
-      return;
-    }
- 
-    const passwordRegex =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,}$/;
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,}$/;
     if (!passwordRegex.test(password)) {
-      toast.error(
-        "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character"
-      );
+      toast.error("Invalid credentials");
       return;
     }
- 
+
     try {
-      const response = await axios.post(`${API_BASE}/signup`, {
-        name,
-        email,
+      const res = await axios.post("/api/v1/auth/login", {
+        username: email,
         password,
-        role,
       });
- 
-      if (response.status === 200 || response.status === 201) {
-        toast.success("Signup successful! Redirecting to login...");
-        navigate("/login");
+
+      if (res.data && res.data.jwt) {
+        login(res.data);
+        toast.success("Login successful!");
+
+        if (res.data.role === "Instructor") navigate("/instructor-home");
+        else navigate("/student-home");
       } else {
-        toast.error("Signup failed. Please try again.");
+        toast.error("Invalid email or password");
       }
-    } catch (error) {
-      console.error("Signup error:", error);
-      toast.error(
-        error.response?.data?.message || "Something went wrong during signup."
-      );
+    } catch (err) {
+      if (err.response) {
+        if (err.response.status === 400) toast.error("Bad request: check your email/password");
+        else if (err.response.status === 401) toast.error("Invalid email or password");
+        else toast.error(`Server error: ${err.response.status}`);
+      } else {
+        toast.error("Network error: unable to reach server");
+      }
+      console.error("Login failed:", err);
     }
   };
  
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSignup}
-        className="bg-white p-8 rounded-xl shadow-lg w-96"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow bg-white">
+      <h2 className="text-2xl font-bold mb-4">Login</h2>
+
+      <form onSubmit={handleLogin} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border p-2 rounded-md"
+            required
+          />
+        </div>
  
-        <input
-          type="text"
-          placeholder="Full Name"
-          className="w-full p-3 border rounded mb-4"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
- 
-        <select
-          className="w-full p-3 border rounded mb-4"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option value="Student">Student</option>
-          <option value="Instructor">Instructor</option>
-        </select>
- 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-3 border rounded mb-4"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
- 
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full p-3 border rounded mb-4"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div>
+          <label className="block text-sm font-medium">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border p-2 rounded-md"
+            required
+          />
+        </div>
  
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white p-3 rounded hover:bg-indigo-700"
+          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
         >
-          Sign Up
+          Login
         </button>
       </form>
     </div>
   );
 };
  
-export default Signup;
- 
+export default Login;
